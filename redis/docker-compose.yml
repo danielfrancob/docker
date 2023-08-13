@@ -1,0 +1,14 @@
+version: "3.9"
+
+volumes:
+  redis-vol:
+    driver: local
+
+services:
+  redis:
+    container_name: redis
+    image: redis
+    volumes:
+      - redis-vol:/data
+    ports:
+      - 6379:6379

@@ -1,0 +1,44 @@
+version: "3.9"
+
+networks:
+  postgres_net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.30.0.0/24
+
+volumes:
+  postgresql-main-vol:
+    driver: local
+  postgresql-replica-vol:
+    driver: local
+
+services:
+  postgresql-main:
+    container_name: main
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - postgresql-main-vol:/var/lib/postgresql/data
+    networks:
+      postgres_net:
+        ipv4_address: 172.30.0.2
+  postgresql-replica:
+    container_name: replica
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5433:5432
+    volumes:
+      - postgresql-replica-vol:/var/lib/postgresql/data
+    networks:
+      postgres_net:
+        ipv4_address: 172.30.0.3
+    depends_on:
+      - postgresql-main

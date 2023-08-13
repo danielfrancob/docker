@@ -1,0 +1,24 @@
+version: "3.9"
+
+volumes:
+  localstack-vol:
+    driver: local
+
+services:
+  localstack:
+    image: localstack/localstack
+    ports:
+      - 4566-4583:4566-4583
+    environment:
+      - DEBUG=0
+      - LOCALSTACK_HOSTNAME=localstack
+      - HOSTNAME=localstack
+      - HOSTNAME_EXTERNAL=localstack
+      - PERSISTENCE=1
+      - DYNAMODB_ERROR_PROBABILITY=0
+      - DYNAMODB_SHARE_DB=1
+      - LAMBDA_EXECUTOR=docker-reuse
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - localstack-vol:/var/lib/localstack

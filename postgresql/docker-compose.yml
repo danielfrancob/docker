@@ -1,0 +1,17 @@
+version: "3.9"
+
+volumes:
+  postgresql-vol:
+    driver: local
+
+services:
+  postgresql:
+    container_name: postgresql
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - postgresql-vol:/var/lib/postgresql/data
