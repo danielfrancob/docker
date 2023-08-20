@@ -1,0 +1,36 @@
+version: "3.9"
+
+volumes:
+  gitlab-config:
+    driver: local
+  gitlab-data:
+    driver: local
+  gitlab-logs:
+    driver: local
+  gitlab-runner-config:
+    driver: local
+  gitlab-runner-home:
+    driver: local
+
+services:
+  gitlab:
+    container_name: gitlab
+    image: 'gitlab/gitlab-ce'
+    hostname: 'gitlab'
+    ports:
+      - '80:80'
+      - '443:443'
+      - '22:22'
+    volumes:
+      - gitlab-config:/etc/gitlab
+      - gitlab-logs:/var/log/gitlab
+      - gitlab-data:/var/opt/gitlab
+    shm_size: '256m'
+  gitlab-runner:
+    container_name: gitlab-runner
+    image: gitlab/gitlab-runner
+    hostname: 'gitlab-runner'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - gitlab-runner-config:/etc/gitlab-runner
+      - gitlab-runner-home:/home/gitlab-runner
