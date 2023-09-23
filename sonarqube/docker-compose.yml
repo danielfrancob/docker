@@ -1,0 +1,20 @@
+version: "3.9"
+
+volumes:
+  sonarqube-data:
+    driver: local
+  sonarqube-logs:
+      driver: local
+  sonarqube-extensions:
+      driver: local      
+
+services:
+  sonarqube:
+    container_name: sonarqube
+    image: sonarqube
+    volumes:
+      - sonarqube-data:/opt/sonarqube/data
+      - sonarqube-logs:/opt/sonarqube/logs
+      - sonarqube-extensions:/opt/sonarqube/extensions
+    ports:
+      - 9000:9000
