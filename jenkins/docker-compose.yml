@@ -1,0 +1,15 @@
+version: "3.9"
+
+volumes:
+  jenkins-vol:
+    driver: local
+
+services:
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins:alpine
+    ports:
+      - 9090:8080
+      - 50000:50000
+    volumes:
+      - jenkins-vol:/var/jenkins_home
